@@ -1,19 +1,26 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function Landing() {
+function Landing({auth:{isAuthenticated, loading}}) {
   return (
     <section className="landing">
       <div className="dark-overlay">
         <div className="landing-inner">
-          <h1 className="x-large">Developer Connector</h1>
+          <h1 className="x-large">Your feedback is important to us</h1>
           <p className="lead">
-            Create a developer profile/portfolio, share posts and get help from
-            other developers
+            A platform for feedback at ALU
           </p>
           <div className="buttons">
-            <Link to="/register" className="btn btn-primary">Sign Up</Link>
+            { !loading && (<Fragment>{ isAuthenticated?
+            <Fragment></Fragment>
+            
+             : <Fragment> 
+              <Link to="/register" className="btn btn-primary">Sign Up</Link>
             <Link to="/login" className="btn btn-light">Login</Link>
+            </Fragment>}</Fragment>)}
+            
           </div>
         </div>
       </div>
@@ -21,4 +28,14 @@ function Landing() {
   )
 }
 
-export default Landing
+Landing.propTypes = {
+  auth: PropTypes.object.isRequired,
+}
+// Navbar.defaultProps = {
+//   isAdmin: true
+// }
+const mapStateToProps = state => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps) (Landing)

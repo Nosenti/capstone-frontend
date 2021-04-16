@@ -82,9 +82,8 @@ export const login = (email, password) => async dispatch => {
 
   try {
     const res =  await axios.post(`${BASE_URL}/users/signin`, body, config);
-    console.log(res)
-    
-
+    // console.log(res)  
+    // dispatch(setAlert('Login Success', 'success'));
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
@@ -92,9 +91,10 @@ export const login = (email, password) => async dispatch => {
 
     dispatch(loadUser())
   } catch (err) {
-    console.log(err)
-    const errors = err.response.data;
-    dispatch(setAlert(errors.message, 'danger'));
+    // console.log(err.Error)
+    // const errors = err.Error;
+    // setAlert(errors.message, 'danger')
+    // dispatch(setAlert('invalid credentials', 'danger'));
     
     dispatch({
       type: LOGIN_FAIL

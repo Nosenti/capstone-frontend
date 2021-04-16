@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Dashboard = props => {
+const Dashboard = ({auth: {user}}) => {
   return (
-    <div>
-      Dashboard
-    </div>
+    <Fragment>
+      <h1>Dashboard</h1>
+      <p className="lead">
+        <i className="fas fa-user"/> Welcome {user && user.name}
+      </p>
+    </Fragment>
   )
 }
 
 Dashboard.propTypes = {
-
+  auth: PropTypes.func.isRequired
 }
 
-export default Dashboard
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(Dashboard)
 
