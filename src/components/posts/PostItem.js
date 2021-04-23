@@ -31,13 +31,13 @@ const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, tex
 
             {showActions && <Fragment>
               <button onClick={e => updateAgree(_id)} type="button" class="btn btn-light">
-              <i class="fas fa-thumbs-up"></i> {' '}
+              <i class="fas fa-thumbs-up"></i> {' Agree'}
               <span> {agree.length > 0 && (
                 <span>{agree.length}</span>
               )} </span>
             </button>
             <button onClick={e => updateDisagree(_id)} type="button" class="btn btn-light">
-              <i class="fas fa-thumbs-down"></i> {' '}
+              <i class="fas fa-thumbs-down"></i> {' Disagree'}
               <span> {disagree.length > 0 && (
                 <span>{disagree.length}</span>
               )} </span>
@@ -53,7 +53,7 @@ const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, tex
                 type="button"
                 class="btn btn-danger"
               >
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i> 
               </button>
             )}
               </Fragment>}

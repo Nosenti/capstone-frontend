@@ -9,10 +9,13 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
+  GET_PENDING,
+  APPROVE_POST,
+  DECLINE_POST
 } from './types';
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://api-aluxfeed.herokuapp.com/api";
 
 // Get posts
 export const getPosts = () => async dispatch => {
@@ -21,6 +24,23 @@ export const getPosts = () => async dispatch => {
 
     dispatch({
       type: GET_POSTS, 
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR, 
+      payload: { msg: err.response.message, status: err.response.status}
+    })
+  }
+}
+
+// Get posts
+export const getPendingPosts = () => async dispatch => {
+  try {
+    const res = await axios.get(`${BASE_URL}/pendingPosts`);
+
+    dispatch({
+      type: GET_PENDING, 
       payload: res.data
     })
   } catch (err) {
@@ -41,6 +61,9 @@ export const updateAgree = id => async dispatch => {
       payload: {id, agree: res.data}
     })
   } catch (err) {
+    console.log(err)
+    const errors = err.response.data;
+    dispatch(setAlert(errors.error, 'danger'));
     dispatch({
       type: POST_ERROR, 
       // payload: { msg: err.response.message, status: err.response.status}
@@ -58,9 +81,48 @@ export const updateDisagree = id => async dispatch => {
       payload: {id, disagree: res.data}
     })
   } catch (err) {
+    console.log(err)
+    const errors = err.response.data;
+    dispatch(setAlert(errors.error, 'danger'));
+    dispatch({
+      type: POST_ERROR,
+    })
+  }
+}
+
+// 
+export const approvePost = (id) => async dispatch => {
+  try {
+    await axios.patch(`${BASE_URL}/posts/${id}/approvePost`);
+
+    dispatch({
+      type: APPROVE_POST, 
+      payload: id
+    })
+    dispatch(setAlert('Post approved','success'));
+    
+  } catch (err) {
     dispatch({
       type: POST_ERROR, 
-      payload: { msg: err.response.message, status: err.response.status}
+      // payload: { msg: err.response.message, status: err.response.status}
+    })
+  }
+}
+
+// 
+export const declinePost = (id) => async dispatch => {
+  try {
+    await axios.patch(`${BASE_URL}/posts/${id}/declinePost`);
+
+    dispatch({
+      type: DECLINE_POST, 
+      payload: id
+    })
+    dispatch(setAlert('Post declined','success'));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR, 
+      // payload: { msg: err.response.message, status: err.response.status}
     })
   }
 }
@@ -97,18 +159,21 @@ export const addPost = formData => async dispatch => {
   }
   try {
     const res = await axios.post(`${BASE_URL}/posts`, formData, config);
-    dispatch(setAlert('Post created','success'));
+    
     dispatch({
       type: ADD_POST, 
       payload: res.data
     })
     
-    
+    dispatch(setAlert('Post created','success'));
   } catch (err) {
+
+    console.log(err)
+    const errors = err.response.data;
+    dispatch(setAlert(errors.Message, 'danger'));
     
     dispatch({
-      type: POST_ERROR, 
-      // payload: { msg: err.response.message, status: err.response.status}
+      type: POST_ERROR
     })
   }
 }
@@ -162,7 +227,6 @@ export const deleteComment = (postId, commentId) => async dispatch => {
 
   try {
     await axios.delete(`${BASE_URL}/posts/${postId}/comment/${commentId}`);
-
     dispatch({
       type: REMOVE_COMMENT, 
       payload: commentId

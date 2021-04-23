@@ -11,6 +11,9 @@ const Navbar = ({ auth: {isAuthenticated, loading,user}, logout }) => {
         {user?.role === 'admin'?  <li>
           <Link to='/dashboards'>Dashboards</Link>
         </li>  : ''}
+        {user?.role === 'moderator'?  <li>
+          <Link to='/pending'>Pending</Link>
+        </li>  : ''}
         <li>
           <Link to='/posts'>Posts</Link>
         </li>

@@ -11,7 +11,7 @@ import {
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://api-aluxfeed.herokuapp.com/api";
 // Load user
 export const loadUser = () => async dispatch => {
   if(localStorage.token){
@@ -56,6 +56,7 @@ export const register = ({name, email, password, passwordConfirm}) => async disp
       type: REGISTER_SUCCESS,
       payload: res.data
     })
+    dispatch(setAlert('Signup was successful. Go confirm your email', 'success'));
   } catch (err) {
     console.log(err)
     const errors = err.response.data;
@@ -91,10 +92,9 @@ export const login = (email, password) => async dispatch => {
 
     dispatch(loadUser())
   } catch (err) {
-    // console.log(err.Error)
-    // const errors = err.Error;
-    // setAlert(errors.message, 'danger')
-    // dispatch(setAlert('invalid credentials', 'danger'));
+    console.log(err)
+    const errors = err.response.data;
+    dispatch(setAlert(errors.message, 'danger'));
     
     dispatch({
       type: LOGIN_FAIL

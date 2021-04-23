@@ -4,9 +4,11 @@ import './App.css';
 import Landing from './components/layout/Landing';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
+import ConfirmPassword from './components/auth/ConfirmPassword';
 import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import PendingPosts from './components/posts/PendingPosts';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -40,7 +42,9 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register}/>
               <Route exact path="/login" component={Login}/>
+              <Route exact path="/confirm-password" component={ConfirmPassword}/>
               <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+              <PrivateRoute exact path="/pending" component={PendingPosts}/>
               <PrivateRoute exact path="/posts" component={Posts}/>
               <PrivateRoute exact path="/posts/:id" component={Post}/>
             </Switch>
