@@ -9,7 +9,10 @@ import {
   GET_POST,
   ADD_COMMENT, 
   REMOVE_COMMENT,
-  GET_PENDING
+  GET_PENDING,
+  GET_STATS,
+  GET_STATS_TAGS,
+  GET_STATS_DECLINED
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +28,9 @@ export default function (state = initialState, action) {
   switch(type){
     case GET_POSTS:
     case GET_PENDING:
+    case GET_STATS:
+    case GET_STATS_TAGS:
+    case GET_STATS_DECLINED:
       return {
         ...state,
         posts: payload,

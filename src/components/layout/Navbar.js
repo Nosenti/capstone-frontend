@@ -9,7 +9,7 @@ const Navbar = ({ auth: {isAuthenticated, loading,user}, logout }) => {
   const authLinks = (
     <ul>
         {user?.role === 'admin'?  <li>
-          <Link to='/dashboards'>Dashboards</Link>
+          <Link to='/dashboard'>Dashboard</Link>
         </li>  : ''}
         {user?.role === 'moderator'?  <li>
           <Link to='/pending'>Pending</Link>

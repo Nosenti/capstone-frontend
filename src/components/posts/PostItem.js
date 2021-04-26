@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import {connect} from 'react-redux';
 import { updateAgree, updateDisagree, deletePost} from '../../actions/post'
 
-const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, text, title, name, avatar, user, agree, disagree,comments, date }, showActions}) => {
+const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, text, title, name, avatar, user, tags, agree, disagree,comments, date }, showActions}) => {
   return (
     <div class="post bg-white p-1 my-1">
           <div>
@@ -18,6 +18,7 @@ const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, tex
               <h4>{name}</h4>
             </Link>
           </div>
+          
           <div>
             <p class="my-1">
               {title}
@@ -59,7 +60,9 @@ const PostItem = ({updateAgree, updateDisagree, deletePost, auth, post:{_id, tex
               </Fragment>}
 
             
-            
+            <div>
+            <p>{tags}</p>
+          </div>
           </div>
         </div>
   )

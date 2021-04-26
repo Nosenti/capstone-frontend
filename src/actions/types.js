@@ -20,5 +20,9 @@ export const GET_PENDING = 'GET_PENDING';
 export const APPROVE_POST = 'APPROVE_POST';
 export const DECLINE_POST = 'DECLINE_POST';
 export const VERIFY_EMAIL = 'VERIFY_EMAIL';
+export const GET_STATS = 'GET_STATS';
+export const GET_STATS_TAGS = 'GET_STATS_TAGS';
+export const GET_STATS_DECLINED = 'GET_STATS_DECLINED';
+
 
 

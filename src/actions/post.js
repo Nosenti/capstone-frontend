@@ -12,7 +12,10 @@ import {
   REMOVE_COMMENT,
   GET_PENDING,
   APPROVE_POST,
-  DECLINE_POST
+  DECLINE_POST,
+  GET_STATS,
+  GET_STATS_TAGS,
+  GET_STATS_DECLINED
 } from './types';
 
 const BASE_URL = "https://api-aluxfeed.herokuapp.com/api";
@@ -24,6 +27,56 @@ export const getPosts = () => async dispatch => {
 
     dispatch({
       type: GET_POSTS, 
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR, 
+      payload: { msg: err.response.message, status: err.response.status}
+    })
+  }
+}
+
+// Get Stats
+export const getStats = () => async dispatch => {
+  try {
+    const res = await axios.get(`${BASE_URL}/stats`);
+
+    dispatch({
+      type: GET_STATS, 
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR, 
+      payload: { msg: err.response.message, status: err.response.status}
+    })
+  }
+}
+// Get Stats
+export const getStatsTags = () => async dispatch => {
+  try {
+    const res = await axios.get(`${BASE_URL}/tagStats`);
+
+    dispatch({
+      type: GET_STATS_TAGS, 
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR, 
+      payload: { msg: err.response.message, status: err.response.status}
+    })
+  }
+}
+
+// Get Stats
+export const getStatsDeclined = () => async dispatch => {
+  try {
+    const res = await axios.get(`${BASE_URL}/tagStatsDeclined`);
+
+    dispatch({
+      type: GET_STATS_DECLINED, 
       payload: res.data
     })
   } catch (err) {
@@ -60,10 +113,14 @@ export const updateAgree = id => async dispatch => {
       type: UPDATE_AGREE, 
       payload: {id, agree: res.data}
     })
+     dispatch({
+      type: GET_POSTS,
+      payload: res.data
+    })
   } catch (err) {
-    console.log(err)
-    const errors = err.response.data;
-    dispatch(setAlert(errors.error, 'danger'));
+    // console.log(err)
+    // const errors = err.response.data;
+    // dispatch(setAlert(errors.error, 'danger'));
     dispatch({
       type: POST_ERROR, 
       // payload: { msg: err.response.message, status: err.response.status}
@@ -164,6 +221,11 @@ export const addPost = formData => async dispatch => {
       type: ADD_POST, 
       payload: res.data
     })
+
+    dispatch({
+      type: GET_POSTS, 
+      payload: res.data
+    })
     
     dispatch(setAlert('Post created','success'));
   } catch (err) {
@@ -205,10 +267,14 @@ export const addComment = (postId, formData) => async dispatch => {
     
   }
   try {
-    const res = await axios.post(`${BASE_URL}/posts/${postId}`, formData, config);
+    const res = await axios.post(`${BASE_URL}/posts/${postId}/comment`, formData, config);
 
     dispatch({
       type: ADD_COMMENT, 
+      payload: res.data
+    })
+    dispatch({
+      type: GET_POST, 
       payload: res.data
     })
     
